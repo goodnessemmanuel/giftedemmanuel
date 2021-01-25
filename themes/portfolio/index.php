@@ -3,80 +3,26 @@
 
     $portfolio_bio = new WP_Query(
         array(
-            'post_type' => 'bio',
+            'post_type' => 'biography',
             'posts_per_page' => 1
         )
     );
 
-    $about_me = ['tagline' => '', 'content' => ''];
+    $about_me = [ 'tagline' => 'A brief history of my professional life', 
+                            'content' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                        ];
     $phone = '(+234)76 000 0000';
     $contact_image_url = get_theme_file_uri('/assets/images/envelope.png');
     $contact_address = '#1 brutal determination, success unstoppable residence';
 
-    if ($portfolio_bio->have_posts()):
-
-        while ($portfolio_bio->have_posts()):
-
+    if ($portfolio_bio->have_posts()){
+        while ($portfolio_bio->have_posts()){
             $portfolio_bio->the_post();
+            the_content();
+        }
+    }
 
-            $about_me = get_field('about_me') ?? $about_me;
-
-            $phone    = isset(get_field('basic_info')['phone']) && !empty(get_field('basic_info')['phone']) ?
-                        get_field('basic_info')['phone'] : $phone;
-
-            $contact_image_url  = get_field('basic_info')['contact_image'] ?? $contact_image_url;
-
-            $contact_address  = isset(get_field('basic_info')['contact_address']) && !empty(get_field('basic_info')['contact_address']) ?
-                                get_field('basic_info')['contact_address'] : $contact_address;
-
-            $upload_cv  =   isset(get_field('basic_info')['upload_cv']) && !empty(get_field('basic_info')['upload_cv']) ?
-                                get_field('basic_info')['upload_cv'] : '';
-
-?><section class="banner" style="background-image:  url('<?php  the_post_thumbnail_url(); ?>')"> <!--===banner area===-->
-    <div class="container">
-        <div class="row">
-            <div class="col-md-1 col-lg-2">
-                <div class="cv">           
-                    <a class="download_cv" href="<?php echo $upload_cv; ?>" target="_blank"><span>Download CV</span></a>
-                </div>
-            </div> 
-            <div class="col-md-10 col-lg-8 mx-2">
-                <div class="banner_item">
-                    <div class="profile_pic">
-                        <img src=<?php echo get_field('basic_info')['profile_image'] ?> alt="">
-                    </div>
-                    <div class="banner_text">
-                        <h2><b><?php echo (get_field('basic_info')['full_name']) ?></b></h2>
-                        <h5><?php echo (get_field('basic_info')['occupation']) ?></h5>
-                        <ul class="basic_info">
-                            <li><b>BORN : </b><?php
-                                $dob = new DateTime(get_field('basic_info')['birth_block']['date_of_birth']);
-                                $show_birth_year = get_field('basic_info')['birth_block']['birth_year'];
-                                echo !$show_birth_year ? $dob->format('M') . ' ' . $dob->format('d'):
-                                    $dob->format('M') . ' ' . $dob->format('d') . ', ' . $dob->format('Y');
-                                ?></li>
-                            <li><b>EMAIL : </b><?php echo (get_field('basic_info')['email']) ?></li>
-                            <li><b>MARITAL STATUS : </b><?php echo (get_field('basic_info' )['marital_status'])  ?></li>
-                        </ul>
-                        <ul class="social_info">
-                            <li><a href="<?php echo get_field('social_media')['facebook'] ?>" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="<?php echo get_field('social_media')['twitter'] ?>" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="<?php echo get_field('social_media')['pinterest'] ?>" target="_blank"><i class="fa fa-pinterest"></i></a></li>
-                            <li><a href="<?php echo get_field('social_media')['linkedin'] ?>" target="_blank"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="<?php echo get_field('social_media')['instagram'] ?>" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div><!--end column-->
-            <div class="col-md-1 col-lg-2"></div> 
-        </div><!--end row-->
-    <?php endwhile; ?>
-    </div>
-</section>
-
-<?php endif; ?>
-
-<?php
+       
     $portfolioProjects = new WP_Query(
         array(
             'post_type' => 'project',

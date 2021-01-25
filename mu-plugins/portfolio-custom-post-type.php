@@ -1,10 +1,10 @@
 <?php
-/**
+/**comment  multiline? SHIFT+ALT+A
  * portfolio custom post types
  */
 function wporg_custom_post_type(){
 
-    register_post_type('bio',
+    /* register_post_type('bio',
         array(
             'labels'      => array(
                 'name'          => __( 'Biography', 'textdomain' ),
@@ -16,7 +16,7 @@ function wporg_custom_post_type(){
             'menu_icon'     => 'dashicons-format-gallery',
             'supports'      => array('title', 'thumbnail')
         )
-    );
+    ); */
 
     register_post_type('skill',
         array(
